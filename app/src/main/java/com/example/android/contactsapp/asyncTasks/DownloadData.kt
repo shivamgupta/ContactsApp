@@ -9,12 +9,18 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-private class DownloadData : AsyncTask<String, Void, String>() {
+class DownloadData(private val listener: OnDownloadComplete) : AsyncTask<String, Void, String>() {
+
     private val TAG = "DownloadData"
 
-    override fun onPostExecute(result: String?) {
+    interface OnDownloadComplete {
+        fun onDownloadComplete(data: String)
+    }
+
+    override fun onPostExecute(result: String) {
         Log.d(TAG, "onPostExecute called")
         super.onPostExecute(result)
+        listener.onDownloadComplete(result)
     }
 
     override fun doInBackground(vararg url: String?): String {
