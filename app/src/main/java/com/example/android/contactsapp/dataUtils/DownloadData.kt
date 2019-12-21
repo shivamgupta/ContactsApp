@@ -1,4 +1,4 @@
-package com.example.android.contactsapp.asyncTasks
+package com.example.android.contactsapp.dataUtils
 
 import android.os.AsyncTask
 import android.util.Log

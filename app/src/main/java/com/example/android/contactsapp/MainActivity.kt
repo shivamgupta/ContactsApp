@@ -3,35 +3,27 @@ package com.example.android.contactsapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.android.contactsapp.asyncTasks.DownloadData
-import com.example.android.contactsapp.dataUtils.ContactJSONUtils
-import com.example.android.contactsapp.objects.Contact
-import java.lang.Exception
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.contactsapp.adapters.ContactRecyclerViewAdapter
+import com.example.android.contactsapp.repository.ContactsRepo
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), DownloadData.OnDownloadComplete, ContactJSONUtils.OnDataAvailable {
+class MainActivity : AppCompatActivity(){
 
     private val TAG = "MainActivity"
+    private val contactRecyclerViewAdapter = ContactRecyclerViewAdapter(ArrayList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val getRawData = DownloadData(this)
-        getRawData.execute("https://randomuser.me/api/?results=10")
-    }
+        val contacts = ContactsRepo(this)
+                            .getContacts(80)
+        Log.d(TAG, "$contacts")
 
-    override fun onDownloadComplete(data: String) {
-        Log.d(TAG, "onDownloadComplete called")
+        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.adapter = contactRecyclerViewAdapter
 
-        val getContactJsonData = ContactJSONUtils(this)
-        getContactJsonData.execute(data)
-    }
-
-    override fun onDataAvailable(contact: ArrayList<Contact>) {
-        Log.d(TAG, "onDataAvailable called, data is $contact")
-    }
-
-    override fun onError(e: Exception) {
-        Log.e(TAG, "onError called with ${e.message}")
+        contactRecyclerViewAdapter.loadNewData(contacts)
     }
 }
