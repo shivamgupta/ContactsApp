@@ -16,18 +16,25 @@ class ContactsRepo(val context: Context) :
 
     private val contacts = ArrayList<Contact>()
 
-    fun getContacts(numberOfContactsRequested: Int) : ArrayList<Contact>  {
+    fun getContacts(contactsType: String) : ArrayList<Contact>  {
 
         val rawData = DownloadData(this)
-                            .execute("https://randomuser.me/api/?results="
-                                    + numberOfContactsRequested.toString()
+                            .execute("https://randomuser.me/api/?results=10"
                             ).get()
 
-        val contactsFromAPI = ContactJSONUtils(this).execute(rawData).get()
-        val contactsFromDB = LocalDBContacts(context).getContacts()
+        if (contactsType.equals("both")) {
+            val contactsFromAPI = ContactJSONUtils(this).execute(rawData).get()
+            val contactsFromDB = LocalDBContacts(context).getContacts()
 
-        contacts.addAll(contactsFromDB)
-        contacts.addAll(contactsFromAPI)
+            contacts.addAll(contactsFromDB)
+            contacts.addAll(contactsFromAPI)
+        } else if (contactsType.equals("cloud")) {
+            val contactsFromAPI = ContactJSONUtils(this).execute(rawData).get()
+            contacts.addAll(contactsFromAPI)
+        } else {
+            val contactsFromDB = LocalDBContacts(context).getContacts()
+            contacts.addAll(contactsFromDB)
+        }
 
         Log.d(TAG, "Contacts Data is now available - ${contacts}")
         return contacts

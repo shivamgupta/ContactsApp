@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/contactsFilter"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/allContacts"
+            android:title="Both"
+            android:checked="true" />
+        <item
+            android:id="@+id/apiContacts"
+            android:title="Cloud" />
+        <item
+            android:id="@+id/localContacts"
+            android:title="Local" />
+    </group>
+</menu>
