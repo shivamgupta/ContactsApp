@@ -13,6 +13,8 @@ The app follows MVVM architecture and covers aspects such as:
 ## API Used
 The API used to get random user data is called [RandomUser](https://randomuser.me/).
 
+
+
 ## Architecture
 ![Demo](demo/mvvm.png)
 
