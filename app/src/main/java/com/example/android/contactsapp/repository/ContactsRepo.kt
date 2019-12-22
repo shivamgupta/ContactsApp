@@ -2,6 +2,7 @@ package com.example.android.contactsapp.repository
 
 import android.content.Context
 import android.util.Log
+import com.example.android.contactsapp.R
 import com.example.android.contactsapp.dataUtils.ContactJSONUtils
 import com.example.android.contactsapp.dataUtils.DownloadData
 import com.example.android.contactsapp.dataUtils.LocalDBContacts
@@ -19,16 +20,16 @@ class ContactsRepo(val context: Context) :
     fun getContacts(contactsType: String) : ArrayList<Contact>  {
 
         val rawData = DownloadData(this)
-                            .execute("https://randomuser.me/api/?results=10"
-                            ).get()
+                            .execute(context.getString(R.string.contacts_api_url))
+                            .get()
 
-        if (contactsType.equals("both")) {
+        if (contactsType.equals(context.getString(R.string.contact_source_both))) {
             val contactsFromAPI = ContactJSONUtils(this).execute(rawData).get()
             val contactsFromDB = LocalDBContacts(context).getContacts()
 
             contacts.addAll(contactsFromDB)
             contacts.addAll(contactsFromAPI)
-        } else if (contactsType.equals("cloud")) {
+        } else if (contactsType.equals(context.getString(R.string.contact_source_api))) {
             val contactsFromAPI = ContactJSONUtils(this).execute(rawData).get()
             contacts.addAll(contactsFromAPI)
         } else {

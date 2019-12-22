@@ -14,14 +14,15 @@ class MainActivity : AppCompatActivity(){
 
     private val TAG = "MainActivity"
     private val contactRecyclerViewAdapter = ContactRecyclerViewAdapter(ArrayList())
-    private var contactSource = "both"
+    private lateinit var contactSource : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        contactSource = getString(R.string.contact_source_both)
+
         val contacts = ContactsRepo(this).getContacts(contactSource)
-        Log.d(TAG, "$contacts")
 
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = contactRecyclerViewAdapter
@@ -32,9 +33,9 @@ class MainActivity : AppCompatActivity(){
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.contact_menu, menu)
 
-        if (contactSource.equals("both")) {
+        if (contactSource.equals(getString(R.string.contact_source_both))) {
             menu?.findItem(R.id.allContacts)?.isChecked = true
-        } else if (contactSource.equals("cloud")){
+        } else if (contactSource.equals(getString(R.string.contact_source_api))){
             menu?.findItem(R.id.apiContacts)?.isChecked = true
         } else {
             menu?.findItem(R.id.localContacts)?.isChecked = true
@@ -43,14 +44,13 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             R.id.allContacts ->
-                contactSource = "both"
+                contactSource = getString(R.string.contact_source_both)
             R.id.apiContacts ->
-                contactSource = "cloud"
+                contactSource = getString(R.string.contact_source_api)
             R.id.localContacts ->
-                contactSource = "local"
+                contactSource = getString(R.string.contact_source_local)
             else ->
                 return super.onOptionsItemSelected(item)
         }

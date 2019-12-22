@@ -52,8 +52,8 @@ class LocalDBContacts(context: Context) {
         database.execSQL(insertRecordSQL)
 
         val contact = ContentValues().apply {
-            put("name", "Anirud Yadav")
-            put("email", "anirud@gmail.com")
+            put("name", "John Smith")
+            put("email", "john@gmail.com")
             put("photoURL", "https://randomuser.me/api/portraits/men/3.jpg")
         }
         database.insert("contacts", null, contact)

@@ -14,7 +14,8 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:scaleType="fitStart"
-        app:srcCompat="@drawable/placeholder" />
+        app:srcCompat="@drawable/placeholder"
+        android:contentDescription="@string/photo_content_desc" />
 
     <TextView
         android:id="@+id/name"
@@ -24,7 +25,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_weight="2"
-        android:text="John Smith"
+        android:text="@string/placeholder_name"
         android:textSize="18sp"
         android:textStyle="bold" />
 </LinearLayout>

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ContactsApp</string>
+    <string name="contact_source_both">both</string>
+    <string name="contact_source_api">cloud</string>
+    <string name="contact_source_local">local</string>
+    <string name="contacts_api_url">https://randomuser.me/api/?results=10</string>
+    <string name="contact_menu_display_both">Both</string>
+    <string name="contact_menu_display_cloud">Cloud</string>
+    <string name="contact_menu_display_local">Local</string>
+    <string name="placeholder_name">John Smith</string>
+    <string name="photo_content_desc">Photo</string>
 </resources>

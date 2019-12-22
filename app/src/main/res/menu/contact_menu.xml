@@ -6,13 +6,13 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/allContacts"
-            android:title="Both"
+            android:title="@string/contact_menu_display_both"
             android:checked="true" />
         <item
             android:id="@+id/apiContacts"
-            android:title="Cloud" />
+            android:title="@string/contact_menu_display_cloud" />
         <item
             android:id="@+id/localContacts"
-            android:title="Local" />
+            android:title="@string/contact_menu_display_local" />
     </group>
 </menu>
