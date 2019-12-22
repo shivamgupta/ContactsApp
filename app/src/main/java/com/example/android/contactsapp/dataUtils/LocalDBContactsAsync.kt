@@ -1,16 +1,20 @@
 package com.example.android.contactsapp.dataUtils
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteDatabase.openOrCreateDatabase
 import android.os.AsyncTask
 import android.util.Log
 import com.example.android.contactsapp.objects.Contact
 import java.lang.Exception
 
-class LocalDBContactsAsync(private val context: Context, private val listener: OnDBDataAvailable) : AsyncTask<Context, Void, ArrayList<Contact>>() {
+class LocalDBContactsAsync(private val listener: OnDBDataAvailable) : AsyncTask<Context, Void, ArrayList<Contact>>() {
 
     private val TAG : String = "LocalDBContactsAsync"
+    @SuppressLint("SdCardPath")
+    private val databasePath : String = "/data/user/0/com.example.android.contactsapp/files/contacts.db"
     private lateinit var database : SQLiteDatabase
 
     interface OnDBDataAvailable {
@@ -21,16 +25,16 @@ class LocalDBContactsAsync(private val context: Context, private val listener: O
     override fun onPreExecute() {
         Log.d(TAG, "onPreExecute starts")
         super.onPreExecute()
-        database = context.openOrCreateDatabase("contacts.db", Context.MODE_PRIVATE, null)
+        database = openOrCreateDatabase(databasePath,null)
         val createTableSQL = "CREATE TABLE IF NOT EXISTS contacts(_id INTEGER PRIMARY KEY NOT NULL, name TEXT, email TEXT, photoURL TEXT)"
         database.execSQL(createTableSQL)
 
-        val insertRecordSQL = "INSERT INTO contacts(name, email, photoURL) VALUES ('Shivam Gupta', 'shivam@gmail.com', 'https://randomuser.me/api/portraits/men/2.jpg')"
+        val insertRecordSQL = "INSERT INTO contacts(name, email, photoURL) VALUES ('Shivam Gupta', 'shivam@gmail.com', 'https://media.licdn.com/dms/image/C5603AQFT96iebh4BWw/profile-displayphoto-shrink_200_200/0?e=1582156800&v=beta&t=QzYuyG524YaTNQjoP6qNX3r0OU6ozcq5SOurHT3Qt7g')"
         database.execSQL(insertRecordSQL)
 
         val contact = ContentValues().apply {
-            put("name", "Anirud Yadav")
-            put("email", "anirud@gmail.com")
+            put("name", "John Smith")
+            put("email", "john@gmail.com")
             put("photoURL", "https://randomuser.me/api/portraits/men/3.jpg")
         }
         database.insert("contacts", null, contact)

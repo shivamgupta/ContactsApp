@@ -1,16 +1,13 @@
 package com.example.android.contactsapp.repository
 
-import android.content.Context
 import android.util.Log
-import com.example.android.contactsapp.R
 import com.example.android.contactsapp.dataUtils.ContactJSONUtils
 import com.example.android.contactsapp.dataUtils.DownloadData
-import com.example.android.contactsapp.dataUtils.LocalDBContacts
 import com.example.android.contactsapp.dataUtils.LocalDBContactsAsync
 import com.example.android.contactsapp.objects.Contact
 import java.lang.Exception
 
-class ContactsRepo(val context: Context) :
+class ContactsRepo() :
     DownloadData.OnDownloadComplete, ContactJSONUtils.OnDataAvailable, LocalDBContactsAsync.OnDBDataAvailable {
 
     private val TAG = "ContactsRepo"
@@ -20,20 +17,21 @@ class ContactsRepo(val context: Context) :
     fun getContacts(contactsType: String) : ArrayList<Contact>  {
 
         val rawData = DownloadData(this)
-                            .execute(context.getString(R.string.contacts_api_url))
+                            .execute("https://randomuser.me/api/?results=10")
                             .get()
 
-        if (contactsType.equals(context.getString(R.string.contact_source_both))) {
+        if (contactsType.equals("both")) {
             val contactsFromAPI = ContactJSONUtils(this).execute(rawData).get()
-            val contactsFromDB = LocalDBContacts(context).getContacts()
-
+            val contactsFromDB = LocalDBContactsAsync(this).execute().get()
             contacts.addAll(contactsFromDB)
             contacts.addAll(contactsFromAPI)
-        } else if (contactsType.equals(context.getString(R.string.contact_source_api))) {
+        }
+        else if (contactsType.equals("cloud")) {
             val contactsFromAPI = ContactJSONUtils(this).execute(rawData).get()
             contacts.addAll(contactsFromAPI)
-        } else {
-            val contactsFromDB = LocalDBContacts(context).getContacts()
+        }
+        else if (contactsType.equals("local")) {
+            val contactsFromDB = LocalDBContactsAsync(this).execute().get()
             contacts.addAll(contactsFromDB)
         }
 
@@ -55,7 +53,6 @@ class ContactsRepo(val context: Context) :
 
     override fun onDBDataAvailable(contact: ArrayList<Contact>) {
         Log.d(TAG, "onDBDataAvailable called")
-        contacts.addAll(contact)
     }
 
     override fun onDBError(e: Exception) {

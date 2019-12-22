@@ -2,19 +2,24 @@ package com.example.android.contactsapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.android.contactsapp.ViewModel.ContactsViewModel
 import com.example.android.contactsapp.adapters.ContactRecyclerViewAdapter
-import com.example.android.contactsapp.repository.ContactsRepo
+import com.example.android.contactsapp.objects.Contact
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(){
 
     private val TAG = "MainActivity"
+
     private val contactRecyclerViewAdapter = ContactRecyclerViewAdapter(ArrayList())
     private lateinit var contactSource : String
+
+    private val contactsViewModel: ContactsViewModel by lazy { ViewModelProviders.of(this).get(ContactsViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,23 +27,27 @@ class MainActivity : AppCompatActivity(){
 
         contactSource = getString(R.string.contact_source_both)
 
-        val contacts = ContactsRepo(this).getContacts(contactSource)
-
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = contactRecyclerViewAdapter
 
-        contactRecyclerViewAdapter.loadNewData(contacts)
+        contactsViewModel.contacts.observe(this, Observer<ArrayList<Contact>> { contactRecyclerViewAdapter.loadNewData(it) })
+        contactsViewModel.getContactsList(contactSource)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    /*
+    * ------------------------------------------------
+    * OPTIONS MENU FUNCTION
+    * ------------------------------------------------
+    * */
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.contact_menu, menu)
 
         if (contactSource.equals(getString(R.string.contact_source_both))) {
-            menu?.findItem(R.id.allContacts)?.isChecked = true
+            menu.findItem(R.id.allContacts)?.isChecked = true
         } else if (contactSource.equals(getString(R.string.contact_source_api))){
-            menu?.findItem(R.id.apiContacts)?.isChecked = true
+            menu.findItem(R.id.apiContacts)?.isChecked = true
         } else {
-            menu?.findItem(R.id.localContacts)?.isChecked = true
+            menu.findItem(R.id.localContacts)?.isChecked = true
         }
         return true
     }
@@ -55,8 +64,7 @@ class MainActivity : AppCompatActivity(){
                 return super.onOptionsItemSelected(item)
         }
         item.isChecked = true
-        val contacts = ContactsRepo(this).getContacts(contactSource)
-        contactRecyclerViewAdapter.loadNewData(contacts)
+        contactsViewModel.getContactsList(contactSource)
         return true
     }
 }

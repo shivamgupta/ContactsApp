@@ -6,23 +6,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.contactsapp.objects.Contact
 import com.example.android.contactsapp.repository.ContactsRepo
-import java.util.*
-import kotlin.coroutines.coroutineContext
 
 class ContactsViewModel : ViewModel() {
 
     private val TAG = "ContactsViewModel"
 
-    private val contactsList = MutableLiveData<List<Contact>>()
+    private val contactsList = MutableLiveData<ArrayList<Contact>>()
 
-    val contacts: LiveData<List<Contact>> = contactsList
+    val contacts: LiveData<ArrayList<Contact>> = contactsList
 
     init {
-        contactsList.postValue(Collections.emptyList<Contact>())
+        contactsList.postValue(ArrayList(0))
     }
 
     fun getContactsList(contactSource: String) {
-        Log.d(TAG, "getContactsList called")
-        //contactsList.postValue(ContactsRepo(this).getContacts(contactSource))
+        Log.d(TAG, "getContactsList called with contactSource as ${contactSource}")
+        contactsList.postValue(ContactsRepo().getContacts(contactSource))
     }
 }
