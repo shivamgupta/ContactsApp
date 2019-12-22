@@ -17,7 +17,7 @@ class ContactsRepo() :
     fun getContacts(contactsType: String) : ArrayList<Contact>  {
 
         val rawData = DownloadData(this)
-                            .execute("https://randomuser.me/api/?results=100")
+                            .execute("https://randomuser.me/api/?results=10")
                             .get()
 
         if (contactsType.equals("both")) {
