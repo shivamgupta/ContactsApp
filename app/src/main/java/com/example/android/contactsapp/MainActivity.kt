@@ -30,8 +30,9 @@ class MainActivity : AppCompatActivity(){
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.adapter = contactRecyclerViewAdapter
 
-        contactsViewModel.contacts.observe(this, Observer<ArrayList<Contact>> { contactRecyclerViewAdapter.loadNewData(it) })
         contactsViewModel.getContactsList(contactSource)
+        contactsViewModel.contactsLiveData.observe(this,
+            Observer<ArrayList<Contact>> { newData -> contactRecyclerViewAdapter.loadNewData(newData) })
     }
 
     /*
@@ -41,14 +42,6 @@ class MainActivity : AppCompatActivity(){
     * */
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.contact_menu, menu)
-
-        if (contactSource.equals(getString(R.string.contact_source_both))) {
-            menu.findItem(R.id.allContacts)?.isChecked = true
-        } else if (contactSource.equals(getString(R.string.contact_source_api))){
-            menu.findItem(R.id.apiContacts)?.isChecked = true
-        } else {
-            menu.findItem(R.id.localContacts)?.isChecked = true
-        }
         return true
     }
 

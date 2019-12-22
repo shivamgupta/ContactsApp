@@ -17,15 +17,10 @@ class DownloadData(private val listener: OnDownloadComplete) : AsyncTask<String,
         fun onDownloadComplete(data: String)
     }
 
-    override fun onPostExecute(result: String) {
-        Log.d(TAG, "onPostExecute called")
-        super.onPostExecute(result)
-        listener.onDownloadComplete(result)
-    }
-
     override fun doInBackground(vararg url: String?): String {
         Log.d(TAG, "doInBackground called : url is ${url[0]}")
         val jsonFeed : String = downloadJSONData(url[0])
+
         if(jsonFeed.isEmpty())
             Log.e(TAG, "doInBackground: Error downloading")
         return jsonFeed
@@ -72,5 +67,11 @@ class DownloadData(private val listener: OnDownloadComplete) : AsyncTask<String,
 
     private fun downloadJSONDataKotlinWay(urlPath: String?): String {
         return URL(urlPath).readText()
+    }
+
+    override fun onPostExecute(result: String) {
+        Log.d(TAG, "onPostExecute called")
+        super.onPostExecute(result)
+        listener.onDownloadComplete(result)
     }
 }

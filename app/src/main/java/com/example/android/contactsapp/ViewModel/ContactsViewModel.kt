@@ -13,7 +13,7 @@ class ContactsViewModel : ViewModel() {
 
     private val contactsList = MutableLiveData<ArrayList<Contact>>()
 
-    val contacts: LiveData<ArrayList<Contact>> = contactsList
+    val contactsLiveData: LiveData<ArrayList<Contact>> = contactsList
 
     init {
         contactsList.postValue(ArrayList(0))

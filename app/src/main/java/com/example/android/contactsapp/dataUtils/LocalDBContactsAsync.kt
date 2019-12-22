@@ -2,7 +2,6 @@ package com.example.android.contactsapp.dataUtils
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
-import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteDatabase.openOrCreateDatabase
 import android.os.AsyncTask
@@ -10,7 +9,7 @@ import android.util.Log
 import com.example.android.contactsapp.objects.Contact
 import java.lang.Exception
 
-class LocalDBContactsAsync(private val listener: OnDBDataAvailable) : AsyncTask<Context, Void, ArrayList<Contact>>() {
+class LocalDBContactsAsync(private val listener: OnDBDataAvailable) : AsyncTask<Void, Void, ArrayList<Contact>>() {
 
     private val TAG : String = "LocalDBContactsAsync"
     @SuppressLint("SdCardPath")
@@ -41,7 +40,7 @@ class LocalDBContactsAsync(private val listener: OnDBDataAvailable) : AsyncTask<
         Log.d(TAG, "onPreExecute ends")
     }
 
-    override fun doInBackground(vararg params: Context?): ArrayList<Contact> {
+    override fun doInBackground(vararg params: Void): ArrayList<Contact> {
         Log.d(TAG, "doInBackground starts")
 
         val contacts = ArrayList<Contact>()

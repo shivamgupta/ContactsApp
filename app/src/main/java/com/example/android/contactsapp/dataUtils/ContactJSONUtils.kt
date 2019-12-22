@@ -37,7 +37,6 @@ class ContactJSONUtils(private val listener: OnDataAvailable) : AsyncTask<String
 
                 val contactObject = Contact(name, email, photoURL)
                 contacts.add(contactObject)
-                Log.d(TAG, "doInBackground ${contactObject}")
             }
         } catch (e: JSONException) {
             Log.e(TAG, "doInBackground error ${e.message}")
