@@ -10,6 +10,9 @@ The app follows MVVM architecture and covers aspects such as:
 - Serializing JSON objects (Parcelable)
 - Implementing ViewModel with LiveData Observer
 
+## API Used
+The API used to get random user data is called RandomUser [Link](https://randomuser.me/).
+
 ## Architecture
 ![Demo](demo/mvvm.png)
 
