@@ -10,8 +10,8 @@ The app follows MVVM architecture and covers aspects such as:
 - Serializing JSON objects (Parcelable)
 - Implementing ViewModel with LiveData Observer
 
-## Demo
-![Demo](demo/demo.gif)
-
 ## Architecture
 ![Demo](demo/mvvm.png)
+
+## Demo
+![Demo](demo/demo.gif)
