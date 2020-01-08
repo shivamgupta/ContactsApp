@@ -22,5 +22,5 @@ The API used to get random user data is called [RandomUser](https://randomuser.m
 ![Demo](demo/demo.gif)
 
 ## TODO (Phase 2)
-- Add Espresso Testing
+- Add AsyncTask testing (Mock)
 - Remove hardcoded directory path for local database
