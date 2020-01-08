@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 
@@ -21,8 +22,13 @@ import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.example.android.contactsapp.CustomAssertions.Companion.hasItemCount
+import com.example.android.contactsapp.dataUtils.DownloadData
+import com.example.android.contactsapp.objects.Contact
+import com.example.android.contactsapp.repository.ContactsRepo
 import org.hamcrest.CoreMatchers
 import org.hamcrest.Matchers.not
+import org.junit.After
+import org.junit.Before
 import org.junit.runner.Description
 import java.util.regex.Matcher
 
@@ -60,7 +66,7 @@ class CustomAssertions {
 }
 
 @RunWith(AndroidJUnit4::class)
-class LocalContactsTest {
+class MenuInstrumentationTests {
 
     lateinit var scenario: ActivityScenario<MainActivity>
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -114,4 +120,20 @@ class LocalContactsTest {
         onView(withText(appContext.getString(R.string.contact_menu_display_both))).perform(click())
         onView(withId(R.id.recycler_view)).check(hasItemCount(12))
     }
+
+    private lateinit var data: ArrayList<Contact>
+
+    @Before
+    fun init(){
+        data = ContactsRepo().getContacts("both")
+
+    }
+
+    @After
+    fun finish(){
+        assertEquals(data.size, 12)
+    }
+
+
+
 }
